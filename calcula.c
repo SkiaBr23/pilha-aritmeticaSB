@@ -113,7 +113,7 @@ int main(int argc, char*argv[]){
 			operacao = 6;	// Sinaliza que última operação acrescenada na pilha foi um ')'
 		}else if(*argv[i] == '+'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao != 1 && operacao != 2){ // Se já tiver recebido um '+' ou um '-', não tem porquê acrescentar outro '+' na pilha
+			if(operacao != 1 && operacao != 2 && operacao != 5){ // Se já tiver recebido um '+' ou um '-' ou um '(', não tem porquê acrescentar outro '+' na pilha
 				pushO('+', &pilha);
 				operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
 			}
@@ -159,11 +159,8 @@ int main(int argc, char*argv[]){
 				negFlag = 1;
 			}else if(operacao == 6){ // Se estiver fechando parênteses ')', então multiplica
 				pushO('*', &pilha);
-			}else if(operacao == 1){ // Se tiver entrado com um símbolo de positivo e antes tiver um '(' ou NULL, então o remove
-				if((pilha->prox == NULL) || (pilha->prox->op == '(')){
-					popO(&pilha);
-				}
 			}
+			
 			num.v = 0;
 			while((*argv[i]>='0' && *argv[i]<='9')){
 				num.v = 10*num.v + (*argv[i]-48);
