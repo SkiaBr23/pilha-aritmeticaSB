@@ -164,17 +164,19 @@ int main(int argc, char*argv[]){
 				destruirPilha(pilha)
 				return 0;
 			}
-			
+			if(negFlag){
+				num *= -1;
+				negFlag = 0;
+			}
 			pushN(num, &pilha);
 			operacao = 0;	// Sinaliza que foi acrescentado um número na pilha
-			negFlag = 0;
+		}else if(*argv[i] != '\0'){
+			i--;// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
 		}else{
 			printf("Por favor, entre somente com números inteiros ou operações: + - * / ( )");
 			destruirPilha(pilha)
 			return 0;
 		}
-		
-		if(*argv[i] != '\0')   i--;// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
 	}
 	
 	if(parentesesAbertos){
