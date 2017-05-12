@@ -44,6 +44,11 @@ struct pilha_t{
 /* Função para criação da pilha inicializando com um número */
 void pushN(uint48_t num, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
+	if(pilha == NULL){
+		printf("Erro! Falta de memória!");
+		destruirPilha(*prox)
+		// Como finalizar o programa?
+	}
 	pilha->num = num;
 	pilha->prox = *prox;
 	*prox = pilha;
@@ -52,6 +57,11 @@ void pushN(uint48_t num, pilha_t** prox){
 /* Função para criação da pilha inicializando com uma operação */
 void pushO(char op, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
+	if(pilha == NULL){
+		printf("Erro! Falta de memória!");
+		destruirPilha(*prox)
+		// Como finalizar o programa?
+	}
 	pilha->op = op;
 	pilha->prox = *prox;
 	*prox = pilha;
