@@ -151,8 +151,8 @@ int main(int argc, char*argv[]){
 			}
 		}else if(*argv[i] == '/'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao == 1 || operacao == 2 || operacao == 3 || operacao == 4){ // Não pode colocar + / ou - / ou * / ou / /
-				printf("Por favor, não coloque + / ou - / ou * / ou / /\n");
+			if(operacao == 1 || operacao == 2 || operacao == 3 || operacao == 4 || operacao == 5){ // Não pode colocar + / ou - / ou * / ou / / ou ( /
+				printf("Por favor, não coloque + / ou - / ou * / ou / / ou ( /\n");
 				destruirPilha(pilha)
 				return 0;
 			}else{
