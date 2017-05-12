@@ -97,7 +97,7 @@ int main(int argc, char*argv[]){
 	int negFlag = 0;
 	uint48_t num;
 	int parentesesAbertos = 0;
-	int operacao = 5; // 0 = recebeu um número, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(', 6 = recebeu um ')'
+	int operacao = 5; // 0 = recebeu um número, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(' ou é início da expressão, 6 = recebeu um ')'
 	pilha_t* pilha = NULL;
 	for(i = 1; i < argc; i++){
 		if(*argv[i] == '('){
@@ -115,7 +115,7 @@ int main(int argc, char*argv[]){
 			operacao = 6;	// Sinaliza que última operação acrescenada na pilha foi um ')'
 		}else if(*argv[i] == '+'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao != 1 && operacao != 2 && operacao != 5){ // Se já tiver recebido um '+' ou um '-' ou um '(', não tem porquê acrescentar outro '+' na pilha
+			if(operacao != 1 && operacao != 2 && operacao != 5){ // Se já tiver recebido um '+' ou um '-' ou um '(' ou é início da expressão, não tem porquê acrescentar outro '+' na pilha
 				pushO('+', &pilha);
 				operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
 			}
@@ -128,8 +128,12 @@ int main(int argc, char*argv[]){
 			}
 			else if(operacao == 2){ // Se já tiver recebido um '-', retira ele e coloca um '+'
 				popO(&pilha);
-				pushO('+', &pilha);
-				operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
+				if((pilha == NULL) || (pilha->op == '(')){
+					operacao = 5;// Não coloca +, só indica que operação anterior foi '(' ou início da expressão
+				}else{
+					pushO('+', &pilha);
+					operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
+				}
 			}else{
 				pushO('-', &pilha);
 				operacao = 2;// Sinaliza que última operação acrescenada na pilha foi um '-'
