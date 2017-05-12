@@ -50,6 +50,7 @@ void pushN(uint48_t num, pilha_t** prox){
 		// Como finalizar o programa?
 	}
 	pilha->num = num;
+	pilha->op = NULL;
 	pilha->prox = *prox;
 	*prox = pilha;
 }
@@ -62,6 +63,7 @@ void pushO(char op, pilha_t** prox){
 		destruirPilha(*prox)
 		// Como finalizar o programa?
 	}
+	pilha->num = 0;
 	pilha->op = op;
 	pilha->prox = *prox;
 	*prox = pilha;
