@@ -1,16 +1,16 @@
-/*		Máquina de Pilha Aritmética
+/*	MÃ¡quina de Pilha AritmÃ©tica
 *	Integrantes: 	Arthur Jaber Costato (13/0039993)
 *					
 *					
 *					
 *
-*	Descrição:	Este programa receberá uma expressão aritmética com notação infixa via linha de comando
-*					(com ou sem parênteses) (quatro operações básicas).
-*				Então ele então a converterá para notação pós-fixa
-*				Por fim, ele resolverá a expressão por meio de aritmética extendida.
+*	DescriÃ§Ã£o:	Este programa receberÃ¡ uma expressÃ£o aritmÃ©tica com notaÃ§Ã£o infixa via linha de comando
+*					(com ou sem parÃªnteses) (quatro operaÃ§Ãµes bÃ¡sicas).
+*				EntÃ£o ele entÃ£o a converterÃ¡ para notaÃ§Ã£o pÃ³s-fixa
+*				Por fim, ele resolverÃ¡ a expressÃ£o por meio de aritmÃ©tica extendida.
 *	Estruturas de Dados:	
 *	Macros:		
-*	Funções:	
+*	FunÃ§Ãµes:	
 *	
 */
 
@@ -30,17 +30,17 @@ typedef union dado_t dado_t;
 
 /* Union para salvar o valor do dado */
 union dado_t{
-	double numero;	// Pode ser um número
-	char operacao;	// Ou uma operação
+	double numero;	// Pode ser um nÃºmero
+	char operacao;	// Ou uma operaÃ§Ã£o
 };
 
 /* Struct da pilha */
 struct pilha_t{
 	dado_t dado;	// Valor do dado
-	pilha_t* prox;	// Próximo elemento da pilha
+	pilha_t* prox;	// PrÃ³ximo elemento da pilha
 };
 
-/* Função para criação da pilha inicializando com um número */
+/* FunÃ§Ã£o para criaÃ§Ã£o da pilha inicializando com um nÃºmero */
 void pushN(double dado, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
 	pilha->dado.numero = dado;
@@ -48,7 +48,7 @@ void pushN(double dado, pilha_t** prox){
 	*prox = pilha;
 }
 
-/* Função para criação da pilha inicializando com uma operação */
+/* FunÃ§Ã£o para criaÃ§Ã£o da pilha inicializando com uma operaÃ§Ã£o */
 void pushO(char dado, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
 	pilha->dado.operacao = dado;
@@ -56,7 +56,7 @@ void pushO(char dado, pilha_t** prox){
 	*prox = pilha;
 }
 
-/* Retira topo da pilha e retorna como número */
+/* Retira topo da pilha e retorna como nÃºmero */
 double popN(pilha_t** pilha){
 	double dado = (*pilha)->dado.numero;
 	pilha_t* prox = (*pilha)->prox;
@@ -65,7 +65,7 @@ double popN(pilha_t** pilha){
 	return dado;
 }
 
-/* Retira topo da pilha e retorna como operação */
+/* Retira topo da pilha e retorna como operaÃ§Ã£o */
 char popO(pilha_t** pilha){
 	char dado = (*pilha)->dado.operacao;
 	pilha_t* prox = (*pilha)->prox;
@@ -76,7 +76,7 @@ char popO(pilha_t** pilha){
 
 int main(int argc, char*argv[]){
 	if(argc == 1){
-		printf("Por favor, entre com a expressão na linha de comando!\n");
+		printf("Por favor, entre com a expressÃ£o na linha de comando!\n");
 		return 0;
 	}
 	
@@ -84,60 +84,60 @@ int main(int argc, char*argv[]){
 	int inteiro,decimal;
 	double num;
 	int parentesesAbertos = 0;
-	int operacao = 5; // 0 = recebeu um número, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(', 6 = recebeu um ')'
+	int operacao = 5; // 0 = recebeu um nÃºmero, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(', 6 = recebeu um ')'
 	pilha_t* pilha = NULL;
 	for(i = 1; i < argc; i++){
 		if(*argv[i] == '('){
-			if(operacao == 0){ // Se recebeu um número, então multiplica
+			if(operacao == 0){ // Se recebeu um nÃºmero, entÃ£o multiplica
 				pushO('*', &pilha);
 			}
 			operacao = 5;
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			parentesesAbertos++; // Incrementa a quantidade de parênteses abertos
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
+			parentesesAbertos++; // Incrementa a quantidade de parÃªnteses abertos
 			pushO('(', &pilha);
 		}else if(*argv[i] == ')'){
 			operacao = 6;
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			parentesesAbertos--; // Decrementa a quantidade de parênteses abertos
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
+			parentesesAbertos--; // Decrementa a quantidade de parÃªnteses abertos
 			pushO(')', &pilha);
 		}else if(*argv[i] == '+'){
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao != 1 && operacao != 2){ // Se já tiver recebido um '+' ou um '-', não tem porquê acrescentar outro '+' na pilha
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
+			if(operacao != 1 && operacao != 2){ // Se jÃ¡ tiver recebido um '+' ou um '-', nÃ£o tem porquÃª acrescentar outro '+' na pilha
 				pushO('+', &pilha);
 				operacao = 1;
 			}
 		}else if(*argv[i] == '-'){
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
 			if(operacao == 1){ // Se tiver recebido um '+', retira ele e coloca um '-'
 				popO(&pilha);
 				pushO('-', &pilha);
 				operacao = 2;
 			}
-			else if(operacao == 2){ // Se já tiver recebido um '-', retira ele e coloca um '+'
+			else if(operacao == 2){ // Se jÃ¡ tiver recebido um '-', retira ele e coloca um '+'
 				popO(&pilha);
 				pushO('+', &pilha);
 				operacao = 1;
 			}else{
-				//if(operacao == 5){ // Se recebeu '(' ou está iniciando, acrescenta o número 0.0 antes do '-'
+				//if(operacao == 5){ // Se recebeu '(' ou estÃ¡ iniciando, acrescenta o nÃºmero 0.0 antes do '-'
 				//	pushN(0.0, &pilha);
 				//}
 				pushO('-', &pilha);
 				operacao = 2;
 			}
 		}else if(*argv[i] == '*'){
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao == 1 || operacao == 2 || operacao == 4){ // Não pode colocar + * ou - * ou / *
-				printf("Por favor, não coloque + * ou - * ou / *\n");
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
+			if(operacao == 1 || operacao == 2 || operacao == 4){ // NÃ£o pode colocar + * ou - * ou / *
+				printf("Por favor, nÃ£o coloque + * ou - * ou / *\n");
 				destruirPilha(pilha)
 				return 0;
-			}else if(operacao != 3){ // Se já tiver recebido um '*', não tem porquê acrescentar outro '*' na pilha
+			}else if(operacao != 3){ // Se jÃ¡ tiver recebido um '*', nÃ£o tem porquÃª acrescentar outro '*' na pilha
 				pushO('*', &pilha);
 				operacao = 3;
 			}
 		}else if(*argv[i] == '/'){
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao == 1 || operacao == 2 || operacao == 3 || operacao == 4){ // Não pode colocar + / ou - / ou * / ou / /
-				printf("Por favor, não coloque + / ou - / ou * / ou / /\n");
+			argv[i]++;	// AvanÃ§a ponteiro de argv para o prÃ³ximo caractere
+			if(operacao == 1 || operacao == 2 || operacao == 3 || operacao == 4){ // NÃ£o pode colocar + / ou - / ou * / ou / /
+				printf("Por favor, nÃ£o coloque + / ou - / ou * / ou / /\n");
 				destruirPilha(pilha)
 				return 0;
 			}else{
@@ -145,7 +145,7 @@ int main(int argc, char*argv[]){
 				operacao = 4;
 			}
 		}else if((*argv[i]>='0' && *argv[i]<='9')||(*argv[i] == ',')||(*argv[i] == '.')){
-			if(operacao == 6){ // Se estiver fechando parênteses, então multiplica
+			if(operacao == 6){ // Se estiver fechando parÃªnteses, entÃ£o multiplica
 				pushO('*', &pilha);
 			}
 			operacao = 0;
@@ -156,7 +156,7 @@ int main(int argc, char*argv[]){
 			while((*argv[i]>='0' && *argv[i]<='9')||(*argv[i] == ',')||(*argv[i] == '.')){
 				if(*argv[i] == ',' || *argv[i] == '.'){
 					if(flag == 0){
-						printf("Por favor, Não coloque duas vírgulas/pontos no mesmo múmero");
+						printf("Por favor, NÃ£o coloque duas vÃ­rgulas/pontos no mesmo mÃºmero");
 						destruirPilha(pilha)
 						return 0;
 					}
@@ -173,16 +173,16 @@ int main(int argc, char*argv[]){
 			pushN(num, &pilha);
 		}
 		
-		if(*argv[i] != '\0')   i--;	// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
+		if(*argv[i] != '\0')   i--;	// Caso nÃ£o tenha espaÃ§o, faz com que a prÃ³xima ineraÃ§Ã£o volte para o mesmo argv
 	}
 	
 	if(parentesesAbertos){
-		printf("Por favor, verifique os parênteses!");
+		printf("Por favor, verifique os parÃªnteses!");
 		destruirPilha(pilha)
 		return 0;
 	}
 	
-	/* Testando as funções push e pop:
+	/* Testando as funÃ§Ãµes push e pop:
 	pilha_t* pilha = NULL;
 	pushN(1.0, &pilha);
 	pushO('+', &pilha);
