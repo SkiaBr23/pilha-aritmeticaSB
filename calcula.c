@@ -88,15 +88,57 @@ char popO(pilha_t** pilha){
 	return op;
 }
 
+/* Converte pilha para uma notação posfixada */
+void notacaoPosFixada(pilha_t** pilha){
+	pilha_t* pilhaAux = NULL;
+	pilha_t* pilhaPos = NULL;
+	
+	// Ordena pilha do início para o fim
+	while(*pilha != NULL){
+		if((*pilha)->op == 0){
+			pushN(popN(pilha),&pilhaAux);
+		}else{
+			pushO(popO(pilha),&pilhaAux);
+		}
+	}
+	*pilha = pilhaAux;
+	pilhaAux = NULL;
+	
+	// Cria pilha auxiliar para quando houver parênteses (pilhaAux)
+	// Cria pilha posfixada para "retornar" (em **pilha)
+	
+	while(*pilha != NULL){
+		if((*pilha)->op == 0){
+			pushN(popN(pilha),&pilhaPos);
+		}else{
+			
+			// Se aparecer um ( não faz nada
+			char op = pilhaAux->op;
+			if(op != '('){
+				// Se recebeu um * ou um /, verifica se recebeu outro anteriormente (não pode ter dois simultaneos na pilhaAux) 
+				if(){
+					
+				// Se recebeu um + ou um -, verifica se recebeu outro anteriormente ou se recebeu um * ou /
+				}else if(){
+					
+				}
+			// Se fechar os parênteses, coloca o que tinha dentro deles
+			}else if(op == ')'){
+				
+			}
+		}
+	}
+}
+
 /* Imprime a pilha */
 void imprimePilha(pilha_t* pilha){
 	while(pilha != NULL){
-			if(pilha->op == 0){
-				printf("%ld ", (long)pilha->num.v);
-			}else{
-				printf("%c ", pilha->op);
-			}
-			pilha = pilha->prox;
+		if(pilha->op == 0){
+			printf("%ld ", (long)pilha->num.v);
+		}else{
+			printf("%c ", pilha->op);
+		}
+		pilha = pilha->prox;
 	}
 }
 
@@ -211,6 +253,9 @@ int main(int argc, char*argv[]){
 		destruirPilha(pilha)
 		return 0;
 	}
+	
+	notacaoPosFixada(&pilha);
+	
 	imprimePilha(pilha);
 	destruirPilha(pilha)
 	return 0;
