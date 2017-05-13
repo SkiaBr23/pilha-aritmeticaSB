@@ -1,0 +1,25 @@
+Prezados (a),
+
+Este trabalho é para ser feito em grupo mas a nota será individual. Os grupos para esse exercício são específicos e diferem dos grupos definidos para a tarefa da linguagem NASM.
+
+Implementem um resolvedor de expressões aritméticas baseado em uma máquina de pilha (dica: usa a notação polonesa reversa), que receba uma equação por linha de comando ou dentro do programa, caso não tenham sido passados os parâmetros. A equação deve ser razoavelmente simples e utilizar apenas inteiros. Os parâmetros passados serão por notação infixa, com ou sem parênteses.
+
+A máquina de pilha deve operar com inteiros de 48 bits. Como esse tipo de inteiro não é suportado nativamente pelos processadores de propósito geral disponíveis, deverão implementar aritmética em software. A forma de como implementar a aritmética via software é de livre escolha.
+
+Atribuída da nota:
+
+- Conversão de notação infixa para pós-fixa (1,0 ponto)
+
+- Corretude da máquina de pilha (2,0 pontos)
+
+- Implementação das quatro operações básicas (soma, subtração, divisão, multiplicação) em aritmética estendida (1,5 pontos para cada)
+
+- Passagem de parâmetros pela linha de comandos (0,5 ponto) e opção de fornecimento pelo usuário caso os parâmetros não sejam passados (0,5 pontos)
+
+- Documentação descrevendo como foi implementada a aritmética, o armazenamento dos números de 48 bits, se a técnica é genérica ou dependente da arquitetura, dificuldades na implementação, além da documentação no software (2 pontos) 
+
+Enviem os fontes e documentação, no nome de um dos membros do grupo mas inclua todos os nomes na documentação interna, especificando o que cada um dos membros do grupo fez. Ocorrência de cópia parcial ou total (plágio) implicará na nota zero. 
+
+Bom trabalho.
+
+ML
