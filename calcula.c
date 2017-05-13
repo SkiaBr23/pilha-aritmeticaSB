@@ -26,6 +26,7 @@
 	var = aux; \
 }
 
+#define TRUE 1
 /* Tipo de dado com 64 bits que representa no máximo 48 bits */
 typedef long long int int64;
 typedef struct pilha_t pilha_t;
@@ -88,7 +89,7 @@ char popO(pilha_t** pilha){
 	return op;
 }
 
-/* Inverte a ordem de uma pilha */
+/* Inverte a ordem dos elementos de uma pilha */
 void invertePilha(pilha_t** pilha){
 	pilha_t* pilhaAux = NULL;
 	
@@ -104,28 +105,6 @@ void invertePilha(pilha_t** pilha){
 	pilhaAux = NULL;
 }
 
-/* Converte pilha para uma notação posfixada */
-void notacaoPosFixada(pilha_t** pilha){
-	pilha_t* pilhaAux = NULL;
-	pilha_t* pilhaPos = NULL;
-	
-	invertePilha(pilha);
-
-	while(*pilha != NULL){
-		if((*pilha)->op == ')')
-			pushO(popO(&pilhaAux),&pilhaPos);
-		if((*pilha)->op == '+' || (*pilha)->op == '-' || (*pilha)->op == '*' || (*pilha)->op == '/')
-			pushO((*pilha)->op, &pilhaAux);
-		if((*pilha)->op == 0)
-			pushN((*pilha)->num,&pilhaPos);
-		*pilha = (*pilha)->prox;
-	}
-	invertePilha(&pilhaPos);
-	*pilha = pilhaPos;
-	pilhaAux = NULL;
-	pilhaPos = NULL;
-}
-
 /* Imprime a pilha */
 void imprimePilha(pilha_t* pilha){
 	while(pilha != NULL){
@@ -136,7 +115,99 @@ void imprimePilha(pilha_t* pilha){
 		}
 		pilha = pilha->prox;
 	}
+	printf("\n");
 }
+
+/* Dentre duas operações aritiméticas, indica qual operação precede a outra */
+int precedencia(char a, char b){
+	int precA = 0;
+	int precB = 0;
+
+	switch(a){
+		case '*':
+			precA = 3;
+			break;
+		case '/':
+			precA = 3;
+			break;
+		case '+':
+			precA = 1;
+			break;
+		case '-':
+			precA = 1;
+			break;
+		case '(':
+			precA = 3;
+			break;
+	}
+	
+	switch(b){
+		case '*':
+			precB = 2;
+			break;
+		case '/':
+			precB = 2;
+			break;
+		case '+':
+			precB = 1;
+			break;
+		case '-':
+			precB = 1;
+			break;
+		case '(':
+			precB = 0;
+			break;
+	}
+
+	return (precB < precA);
+}
+
+/* Converte pilha para uma notação posfixada */
+void notacaoPosFixada(pilha_t** pilha){
+	pilha_t* pilhaAux = NULL;
+	pilha_t* pilhaPos = NULL;
+	char aux;
+	invertePilha(pilha);
+
+	pushO('(', &pilhaAux);
+	while(*pilha != NULL){
+		if((*pilha)->op == 0){
+			pushN(popN(pilha),&pilhaPos);
+		}
+		else if((*pilha)->op == '('){
+			pushO(popO(pilha), &pilhaAux);
+		}
+		else if((*pilha)->op == ')'){
+			do{
+				if (pilhaAux->op != '(')
+					pushO(popO(&pilhaAux), &pilhaPos); // duvida de erro
+			}while(pilhaAux->op != '(');
+			popO(&pilhaAux);
+			popO(pilha);
+		}
+		else if((*pilha)->op == '+' || (*pilha)->op == '-' || (*pilha)->op == '*' || (*pilha)->op == '/'){
+			while(TRUE){		
+					if(precedencia((*pilha)->op, pilhaAux->op)){
+						pushO(popO(pilha), &pilhaAux);
+						break;
+					}
+					else{
+						pushO(popO(&pilhaAux),&pilhaPos);
+					}
+			}
+		}
+	}
+	do{
+		if (pilhaAux->op != '(')
+			pushO(popO(&pilhaAux), &pilhaPos); // duvida de erro
+		}while(pilhaAux->op != '(');
+
+	*pilha = pilhaPos;
+	pilhaPos = NULL;
+	pilhaAux = NULL;
+	invertePilha(pilha);
+}
+
 
 int main(int argc, char*argv[]){
 	if(argc == 1){
@@ -274,7 +345,8 @@ int main(int argc, char*argv[]){
 		destruirPilha(pilha)
 		return 0;
 	}
-	
+	imprimePilha(pilha);
+
 	notacaoPosFixada(&pilha);
 	
 	imprimePilha(pilha);
