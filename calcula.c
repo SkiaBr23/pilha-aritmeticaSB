@@ -19,10 +19,11 @@
 #include <math.h>
 
 /* Macro para destuir a pilha */
-#define destruirPilha(var) while(var != NULL){\
-	pilha_t* aux = var->prox;\
-	free(var);\
-	var = aux;\
+#define destruirPilha(var) \
+ while(var != NULL){ \
+	pilha_t* aux = var->prox; \
+	free(var); \
+	var = aux; \
 }
 
 /* Tipo de dado com 64 bits que representa no máximo 48 bits */
@@ -46,7 +47,7 @@ void pushN(uint48_t num, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
 	if(pilha == NULL){
 		printf("Erro! Falta de memória!");
-		destruirPilha(*prox)
+		//destruirPilha(*prox)
 		// Como finalizar o programa?
 	}
 	pilha->num = num;
@@ -60,10 +61,10 @@ void pushO(char op, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
 	if(pilha == NULL){
 		printf("Erro! Falta de memória!");
-		destruirPilha(*prox)
+		//destruirPilha(*prox)
 		// Como finalizar o programa?
 	}
-	pilha->num = 0;
+	pilha->num.v =  0;
 	pilha->op = op;
 	pilha->prox = *prox;
 	*prox = pilha;
@@ -85,6 +86,19 @@ char popO(pilha_t** pilha){
 	free(*pilha);
 	(*pilha) = prox;
 	return op;
+}
+
+/* Imprime a pilha */
+void imprimePilha(pilha_t** pilha){
+	pilha_t* prox = *pilha;
+
+	while(prox != NULL){
+			char op = prox->op;
+			uint48_t num = prox->num;
+			printf("%c %ld ", op, (long)num.v);
+			prox = prox->prox;
+	}
+
 }
 
 int main(int argc, char*argv[]){
@@ -178,7 +192,7 @@ int main(int argc, char*argv[]){
 				return 0;
 			}
 			if(negFlag){
-				num *= -1;
+				num.v *= -1;
 				negFlag = 0;
 			}
 			pushN(num, &pilha);
@@ -197,7 +211,7 @@ int main(int argc, char*argv[]){
 		destruirPilha(pilha)
 		return 0;
 	}
-	
+	imprimePilha(&pilha);
 	destruirPilha(pilha)
 	return 0;
 }
