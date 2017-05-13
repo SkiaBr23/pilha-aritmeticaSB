@@ -171,7 +171,8 @@ int main(int argc, char*argv[]){
 				operacao = 6;	// Sinaliza que última operação acrescenada na pilha foi um ')'
 			}else if(operacao == 5){ // Se abrir e fechar um parentese, remove ele e adiciona um zero (pois dentro deles está vazio == 0)
 				popO(&pilha);
-				pushN(0,&pilha);
+				num.v = 0;
+				pushN(num,&pilha);
 			}else{	// Não pode ter + ) ou - ) ou * ) ou / )
 				printf("Por favor, não coloque + ) ou - ) ou * ) ou / )\n");
 				destruirPilha(pilha)
