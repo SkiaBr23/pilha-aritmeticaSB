@@ -110,10 +110,7 @@ void notacaoPosFixada(pilha_t** pilha){
 	pilha_t* pilhaPos = NULL;
 	
 	invertePilha(pilha);
-	
-	// Cria pilha auxiliar para quando houver parênteses (pilhaAux)
-	// Cria pilha posfixada para "retornar" (em **pilha)
-	
+
 	while(*pilha != NULL){
 		if((*pilha)->op == ')')
 			pushO(popO(&pilhaAux),&pilhaPos);
