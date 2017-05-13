@@ -258,6 +258,12 @@ int main(int argc, char*argv[]){
 		return 0;
 	}
 	
+	if(operacao != 0 && operacao != 6){
+		printf("Por favor, as expressões devem terminar com um número ou ')'");
+		destruirPilha(pilha)
+		return 0;
+	}
+	
 	notacaoPosFixada(&pilha);
 	
 	imprimePilha(pilha);
