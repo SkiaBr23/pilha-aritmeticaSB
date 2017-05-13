@@ -51,7 +51,7 @@ void pushN(uint48_t num, pilha_t** prox){
 		// Como finalizar o programa?
 	}
 	pilha->num = num;
-	pilha->op = NULL;
+	pilha->op = 0;
 	pilha->prox = *prox;
 	*prox = pilha;
 }
@@ -89,16 +89,15 @@ char popO(pilha_t** pilha){
 }
 
 /* Imprime a pilha */
-void imprimePilha(pilha_t** pilha){
-	pilha_t* prox = *pilha;
-
-	while(prox != NULL){
-			char op = prox->op;
-			uint48_t num = prox->num;
-			printf("%c %ld ", op, (long)num.v);
-			prox = prox->prox;
+void imprimePilha(pilha_t* pilha){
+	while(pilha != NULL){
+			if(pilha->op == 0){
+				printf("%ld ", (long)pilha->num.v);
+			}else{
+				printf("%c ", pilha->op);
+			}
+			pilha = pilha->prox;
 	}
-
 }
 
 int main(int argc, char*argv[]){
@@ -197,12 +196,13 @@ int main(int argc, char*argv[]){
 			}
 			pushN(num, &pilha);
 			operacao = 0;	// Sinaliza que foi acrescentado um número na pilha
-		}else if(*argv[i] != '\0'){
-			i--;// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
 		}else{
 			printf("Por favor, entre somente com números inteiros ou operações: + - * / ( )");
 			destruirPilha(pilha)
 			return 0;
+		}
+		if(*argv[i] != '\0'){
+			i--;// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
 		}
 	}
 	
@@ -211,7 +211,7 @@ int main(int argc, char*argv[]){
 		destruirPilha(pilha)
 		return 0;
 	}
-	imprimePilha(&pilha);
+	imprimePilha(pilha);
 	destruirPilha(pilha)
 	return 0;
 }
