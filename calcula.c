@@ -156,7 +156,7 @@ int main(int argc, char*argv[]){
 	pilha_t* pilha = NULL;
 	for(i = 1; i < argc; i++){
 		if(*argv[i] == '('){
-			if(operacao == 0){ // Se recebeu um número, então multiplica
+			if(operacao == 0 || operacao == 6){ // Se recebeu um número ou outro parêntese fechando antes de '(', então multiplica
 				pushO('*', &pilha);
 			}
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
@@ -164,13 +164,22 @@ int main(int argc, char*argv[]){
 			pushO('(', &pilha);
 			operacao = 5;	// Sinaliza que última operação acrescenada na pilha foi um '('
 		}else if(*argv[i] == ')'){
-			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			parentesesAbertos--; // Decrementa a quantidade de parênteses abertos
-			pushO(')', &pilha);
-			operacao = 6;	// Sinaliza que última operação acrescenada na pilha foi um ')'
+			if(operacao == 0 || operacao == 6){ // Somente fecha parênteses se anteriormente havia um número ou outro parêntese fechando
+				argv[i]++;	// Avança ponteiro de argv para o próximo caractere
+				parentesesAbertos--; // Decrementa a quantidade de parênteses abertos
+				pushO(')', &pilha);
+				operacao = 6;	// Sinaliza que última operação acrescenada na pilha foi um ')'
+			}else if(operacao == 5){ // Se abrir e fechar um parentese, remove ele e adiciona um zero (pois dentro deles está vazio == 0)
+				popO(&pilha);
+				pushN(0,&pilha);
+			}else{	// Não pode ter + ) ou - ) ou * ) ou / )
+				printf("Por favor, não coloque + ) ou - ) ou * ) ou / )\n");
+				destruirPilha(pilha)
+				return 0;
+			}
 		}else if(*argv[i] == '+'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao != 1 && operacao != 2 && operacao != 5){ // Se já tiver recebido um '+' ou um '-' ou um '(' ou é início da expressão, não tem porquê acrescentar outro '+' na pilha
+			if(operacao == 0 || operacao == 6){ // Se já tiver recebido um '+' ou um '-' ou um '*' ou um '/' ou um '(' ou é início da expressão, não tem porquê acrescentar outro '+' na pilha    
 				pushO('+', &pilha);
 				operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
 			}
@@ -184,7 +193,11 @@ int main(int argc, char*argv[]){
 			else if(operacao == 2){ // Se já tiver recebido um '-', retira ele e coloca um '+'
 				popO(&pilha);
 				if((pilha == NULL) || (pilha->op == '(')){
-					operacao = 5;// Não coloca +, só indica que operação anterior foi '(' ou início da expressão
+					operacao = 5; // Não coloca +, só indica que operação anterior foi '(' ou início da expressão
+				}else if(pilha->op == '*'){
+					operacao = 3; // Não coloca +, só indica que operação anterior foi '*'
+				}else if(pilha->op == '/'){
+					operacao = 4; // Não coloca +, só indica que operação anterior foi '/'
 				}else{
 					pushO('+', &pilha);
 					operacao = 1;// Sinaliza que última operação acrescenada na pilha foi um '+'
@@ -195,24 +208,26 @@ int main(int argc, char*argv[]){
 			}
 		}else if(*argv[i] == '*'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao == 1 || operacao == 2 || operacao == 4 || operacao == 5){ // Não pode colocar + * ou - * ou / * ou ( *
-				printf("Por favor, não coloque + * ou - * ou / * ou ( *\n");
-				destruirPilha(pilha)
-				return 0;
-			}else if(operacao != 3){ // Se já tiver recebido um '*', não tem porquê acrescentar outro '*' na pilha
-				// Acrescenta na pilha somente se tiver recebido um número ou ')'
-				pushO('*', &pilha);
-				operacao = 3;// Sinaliza que última operação acrescenada na pilha foi um '*'
+			if(operacao != 3){ // Se já tiver recebido um '*', não tem porquê acrescentar outro '*' na pilha
+				if(operacao == 0 || operacao == 6){
+					// Acrescenta na pilha somente se tiver recebido um número ou ')'
+					pushO('*', &pilha);
+					operacao = 3;// Sinaliza que última operação acrescenada na pilha foi um '*'
+				}else{ // Não pode colocar + * ou - * ou / * ou ( *
+					printf("Por favor, não coloque + * ou - * ou / * ou ( *\n");
+					destruirPilha(pilha)
+					return 0;
+				}
 			}
 		}else if(*argv[i] == '/'){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
-			if(operacao == 1 || operacao == 2 || operacao == 3 || operacao == 4 || operacao == 5){ // Não pode colocar + / ou - / ou * / ou / / ou ( /
+			if(operacao == 0 || operacao == 6){
+				pushO('/', &pilha);
+				operacao = 4;
+			}else{ // Não pode colocar + / ou - / ou * / ou / / ou ( /
 				printf("Por favor, não coloque + / ou - / ou * / ou / / ou ( /\n");
 				destruirPilha(pilha)
 				return 0;
-			}else{
-				pushO('/', &pilha);
-				operacao = 4;
 			}
 		}else if((*argv[i]>='0' && *argv[i]<='9')){
 			if(operacao == 2){ // Se tiver um símbolo de negativo, retira ele e seta flag para alterar o sinal no final
