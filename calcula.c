@@ -88,10 +88,9 @@ char popO(pilha_t** pilha){
 	return op;
 }
 
-/* Converte pilha para uma notação posfixada */
-void notacaoPosFixada(pilha_t** pilha){
+/* Inverte a ordem de uma pilha */
+void invertePilha(pilha_t** pilha){
 	pilha_t* pilhaAux = NULL;
-	pilha_t* pilhaPos = NULL;
 	
 	// Ordena pilha do início para o fim
 	while(*pilha != NULL){
@@ -103,31 +102,31 @@ void notacaoPosFixada(pilha_t** pilha){
 	}
 	*pilha = pilhaAux;
 	pilhaAux = NULL;
+}
+
+/* Converte pilha para uma notação posfixada */
+void notacaoPosFixada(pilha_t** pilha){
+	pilha_t* pilhaAux = NULL;
+	pilha_t* pilhaPos = NULL;
+	
+	invertePilha(pilha);
 	
 	// Cria pilha auxiliar para quando houver parênteses (pilhaAux)
 	// Cria pilha posfixada para "retornar" (em **pilha)
 	
 	while(*pilha != NULL){
-		if((*pilha)->op == 0){
-			pushN(popN(pilha),&pilhaPos);
-		}else{
-			
-			// Se aparecer um ( não faz nada
-			char op = pilhaAux->op;
-			if(op != '('){
-				// Se recebeu um * ou um /, verifica se recebeu outro anteriormente (não pode ter dois simultaneos na pilhaAux) 
-				if(){
-					
-				// Se recebeu um + ou um -, verifica se recebeu outro anteriormente ou se recebeu um * ou /
-				}else if(){
-					
-				}
-			// Se fechar os parênteses, coloca o que tinha dentro deles
-			}else if(op == ')'){
-				
-			}
-		}
+		if((*pilha)->op == ')')
+			pushO(popO(&pilhaAux),&pilhaPos);
+		if((*pilha)->op == '+' || (*pilha)->op == '-' || (*pilha)->op == '*' || (*pilha)->op == '/')
+			pushO((*pilha)->op, &pilhaAux);
+		if((*pilha)->op == 0)
+			pushN((*pilha)->num,&pilhaPos);
+		*pilha = (*pilha)->prox;
 	}
+	invertePilha(&pilhaPos);
+	*pilha = pilhaPos;
+	pilhaAux = NULL;
+	pilhaPos = NULL;
 }
 
 /* Imprime a pilha */
