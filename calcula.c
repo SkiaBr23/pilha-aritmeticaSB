@@ -145,6 +145,7 @@ int main(int argc, char*argv[]){
 	}
 	
 	int i;
+	int negFlag = 0;
 	uint48_t num;
 	int parentesesAbertos = 0;
 	int operacao = 5; // 0 = recebeu um número, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(' ou é início da expressão, 6 = recebeu um ')'
@@ -226,7 +227,13 @@ int main(int argc, char*argv[]){
 				return 0;
 			}
 		}else if((*argv[i]>='0' && *argv[i]<='9')){
-			if(operacao == 0 || operacao == 6){ // Se recebeu outro número ou estiver fechando parênteses ')', então multiplica
+			if(operacao == 2){
+				if(pilha->prox->op != 0 && pilha->prox->op != ')'){ // Se não tiver um número ou ')' antes do '-', retira-se o '-' e faz o número der negativo
+																	// Ou seja, no caso de "1 * -3" ou "1 / -3" ou "1 + (-3)"
+					popO(&pilha);
+					negFlag = 1;
+				}
+			}else if(operacao == 0 || operacao == 6){ // Se recebeu outro número ou estiver fechando parênteses ')', então multiplica
 				pushO('*', &pilha);
 			}
 			
@@ -239,6 +246,10 @@ int main(int argc, char*argv[]){
 				printf("Por favor, entre somente com números inteiros");
 				destruirPilha(pilha)
 				return 0;
+			}
+			if(negFlag){
+				num.v *= -1;
+				negFlag = 0;
 			}
 			pushN(num, &pilha);
 			operacao = 0;	// Sinaliza que foi acrescentado um número na pilha
