@@ -111,7 +111,7 @@ void notacaoPosFixada(pilha_t** pilha){
 		if((*pilha)->op == 0){
 			pushN(popN(pilha),&pilhaPos);
 		}else{
-			pushO(popO(pilha),&pilhaAux);
+			
 			// Se aparecer um ( não faz nada
 			char op = pilhaAux->op;
 			if(op != '('){
