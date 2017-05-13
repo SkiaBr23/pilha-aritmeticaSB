@@ -233,7 +233,7 @@ int main(int argc, char*argv[]){
 			if(operacao == 2){ // Se tiver um símbolo de negativo, retira ele e seta flag para alterar o sinal no final
 				popO(&pilha);
 				negFlag = 1;
-			}else if(operacao == 6){ // Se estiver fechando parênteses ')', então multiplica
+			}else if(operacao == 0 || operacao == 6){ // Se recebeu outro número ou estiver fechando parênteses ')', então multiplica
 				pushO('*', &pilha);
 			}
 			
