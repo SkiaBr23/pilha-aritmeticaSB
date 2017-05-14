@@ -43,6 +43,7 @@ struct pilha_t{
 	pilha_t* prox;	// Próximo elemento da pilha
 };
 
+
 /* Função para criação da pilha inicializando com um número */
 void pushN(uint48_t num, pilha_t** prox){
 	pilha_t* pilha = (pilha_t*)malloc(sizeof(pilha_t));
@@ -208,6 +209,57 @@ void notacaoPosFixada(pilha_t** pilha){
 	invertePilha(pilha);
 }
 
+/*
+Função que pega uma pilha pós-fixada e calcula o valor
+funcao destrutiva, pois altera a pilha de entrada
+empilha os numeros até encontrar operacao, desempilha
+a qtd necessaria, realiza o calculo e coloca na pilha o
+novo resultado. caso dê tudo certo, é para finalizar com
+o cursor que percorre a entrada == NULL e apenas um numero
+na pilha
+*/
+
+uint48_t calculaPilha(pilha_t *entrada) {
+	pilha_t *pilhaNumeros = NULL;
+	while(entrada != NULL) {
+		uint48_t resp, val1, val2; //necessarios para realizar operacoes;
+		if(entrada->op) { //significa ser uma operacao e nao um numero
+			resp.v = 0; //zera para evitar erros
+			switch(entrada->op) {
+				case '+': 	val1 = popN(&pilhaNumeros);
+							val2 = popN(&pilhaNumeros);
+							resp.v = val1.v + val2.v;
+							pushN(resp, &pilhaNumeros);
+							break;
+
+				case '-': 	val1 = popN(&pilhaNumeros);
+							val2 = popN(&pilhaNumeros);
+							resp.v = val1.v - val2.v;
+							pushN(resp, &pilhaNumeros);
+							break;
+
+				case '*': 	val1 = popN(&pilhaNumeros);
+							val2 = popN(&pilhaNumeros);
+							resp.v = val1.v * val2.v;
+							pushN(resp, &pilhaNumeros);
+							break;
+
+				case '/': 	val1 = popN(&pilhaNumeros);
+							val2 = popN(&pilhaNumeros);
+							resp.v = val2.v / val1.v;
+							pushN(resp, &pilhaNumeros);
+							break;
+
+			}
+		} else { //signfica ser um numero
+			pushN(entrada->num, &pilhaNumeros); //insere o numero na pilha
+		}
+		entrada = entrada->prox; //anda para prox simbolo da pilha
+	}
+
+	return pilhaNumeros->num;
+
+}
 
 int main(int argc, char*argv[]){
 	if(argc == 1){
@@ -349,7 +401,11 @@ int main(int argc, char*argv[]){
 
 	notacaoPosFixada(&pilha);
 	
+
 	imprimePilha(pilha);
+
+	printf("\nResultado Final: %ld\n",(long)calculaPilha(pilha).v);
+
 	destruirPilha(pilha)
 	return 0;
 }
