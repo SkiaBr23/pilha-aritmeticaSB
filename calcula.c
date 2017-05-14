@@ -234,7 +234,7 @@ uint48_t calculaPilha(pilha_t *entrada) {
 
 				case '-': 	val1 = popN(&pilhaNumeros);
 							val2 = popN(&pilhaNumeros);
-							resp.v = val1.v - val2.v;
+							resp.v = val2.v - val1.v;
 							pushN(resp, &pilhaNumeros);
 							break;
 
