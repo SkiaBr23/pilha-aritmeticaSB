@@ -4,7 +4,8 @@
 *	Integrantes: 	Arthur Jaber Costato  (13/0039993)
 *					Paulo da Cunha Passos (10/0118577)
 *					Rafael Dias da Costa  (12/0133253)
-*			
+*					Lucas Mota Ribeiro 	  (12/0016885)
+*					Miguel Montagner Filho (13/0127302) 
 *			
 *   Arquivo: main.c
 *	Descrição:	Este programa receberá uma expressão aritmética com notação infixa via linha de comando
@@ -14,17 +15,28 @@
 *	
 */
 
+
+/* Arquivo cabeçalho das funcoes/macros utilizadas e estruturas de dados */
 #include "calculadora.h"
 
 int main(int argc, char*argv[]){
 
 	printf("=============================\nMaquina de Pilha Aritmetica\n=============================\n");
-	int inputSize = 0;
-	char *input = concatInput(argc, argv, &inputSize);
+	char input[64];
 
 
-	if (inputSize > 0) {
-		printf("Recebeu equacao por linha de comando: %s\n", input);
+	/* Caso a equacao tenha sido informada via parametro */
+	if (argc > 1) {
+		printf("Recebeu equacao por linha de comando:\n");
+		for (int i = 1; i < argc; ++i)
+		{
+			/* Remocao de espacos para evitar erros de parsing */
+			printf("%s ",argv[i] );
+			removeEspacos(argv[i]);
+		}
+		printf("\n");
+
+	/* Caso a equacao nao tenha sido informada via parametro, pede input do usuario */
 	}else {
 		printf("Insira a equacao desejada:\n");
 		scanf("%[^\n]s",input);
@@ -34,12 +46,15 @@ int main(int argc, char*argv[]){
 		argc++;
 	}
 
+	/* Declaracao de variaveis */
 	int i;
 	int negFlag = 0;
 	uint48_t num;
 	int parentesesAbertos = 0;
 	int operacao = 5; // 0 = recebeu um número, 1 = recebeu '+', 2 = recebeu '-', 3 = recebeu um '*', 4 = recebeu um '/', 5 = recebeu um '(' ou é início da expressão, 6 = recebeu um ')'
 	pilha_t* pilha = NULL;
+
+	/* Processo de empilhamento da expressao */
 	for(i = 1; i < argc; i++){
 		if(*argv[i] == '('){
 			if(operacao == 0 || operacao == 6){ // Se recebeu um número ou outro parêntese fechando antes de '(', então multiplica
@@ -149,7 +164,7 @@ int main(int argc, char*argv[]){
 			return 0;
 		}
 		if(*argv[i] != '\0'){
-			i--;// Caso não tenha espaço, faz com que a próxima ineração volte para o mesmo argv
+			i--;// Caso não tenha espaço, faz com que a próxima interação volte para o mesmo argv
 		}
 	}
 	
