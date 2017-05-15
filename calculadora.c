@@ -4,6 +4,8 @@
 *	Integrantes: 	Arthur Jaber Costato  (13/0039993)
 *					Paulo da Cunha Passos (10/0118577)
 *					Rafael Dias da Costa  (12/0133253)
+*					Lucas Mota Ribeiro 	  (12/0016885)
+*					Miguel Montagner Filho (13/0127302) 
 *			
 *			
 *   Arquivo: calculadora.c
@@ -16,7 +18,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "calculadora.h"
-
 
 
 /* Função para criação da pilha inicializando com um número */
