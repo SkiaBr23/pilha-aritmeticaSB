@@ -2,7 +2,7 @@
 
 Membros do grupo:
 
-Arthur Jaber Costato  		13/0039993  (estrutura de dados e leitura da expressao na pilha)
+Arthur Jaber Costato  		13/0039993  (estrutura de dados, leitura e verificação da expressão salvando na pilha)
 Paulo da Cunha Passos 	    10/0118577  (conversao da pilha infixada para posfixada)
 Lucas Mota Ribeiro 			12/0016885	(conversao da pilha infixada para posfixada, validacao dos parametros)
 Miguel Montagner Filho      13/0127302  (calculo da expressao posfixada)
