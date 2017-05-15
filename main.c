@@ -6,7 +6,7 @@
 *					Rafael Dias da Costa  (12/0133253)
 *			
 *			
-*
+*   Arquivo: main.c
 *	Descrição:	Este programa receberá uma expressão aritmética com notação infixa via linha de comando
 *			(com ou sem parênteses) (quatro operações básicas).
 *			Então ele então a converterá para notação pós-fixa
@@ -19,12 +19,21 @@
 int main(int argc, char*argv[]){
 
 	printf("=============================\nMaquina de Pilha Aritmetica\n=============================\n");
+	int inputSize = 0;
+	char *input = concatInput(argc, argv, &inputSize);
 
-	if(argc == 1){
-		printf("Por favor, entre com a expressão na linha de comando!\n");
-		return 0;
+
+	if (inputSize > 0) {
+		printf("Recebeu equacao por linha de comando: %s\n", input);
+	}else {
+		printf("Insira a equacao desejada:\n");
+		scanf("%[^\n]s",input);
+		removeEspacos(input);
+		argv[1] = malloc(sizeof(char)*strlen(input));
+		strcpy(argv[1],input);
+		argc++;
 	}
-	
+
 	int i;
 	int negFlag = 0;
 	uint48_t num;
@@ -35,7 +44,7 @@ int main(int argc, char*argv[]){
 		if(*argv[i] == '('){
 			if(operacao == 0 || operacao == 6){ // Se recebeu um número ou outro parêntese fechando antes de '(', então multiplica
 				pushO('*', &pilha);
-			}
+		}
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
 			parentesesAbertos++; // Incrementa a quantidade de parênteses abertos
 			pushO('(', &pilha);
@@ -65,12 +74,12 @@ int main(int argc, char*argv[]){
 			argv[i]++;	// Avança ponteiro de argv para o próximo caractere
 			if(operacao == 1){ // Se tiver recebido um '+', retira ele e coloca um '-'
 				popO(&pilha);
-				pushO('-', &pilha);
+			pushO('-', &pilha);
 				operacao = 2;// Sinaliza que última operação acrescenada na pilha foi um '-'
 			}
 			else if(operacao == 2){ // Se já tiver recebido um '-', retira ele e coloca um '+'
 				popO(&pilha);
-				if((pilha == NULL) || (pilha->op == '(')){
+			if((pilha == NULL) || (pilha->op == '(')){
 					operacao = 5; // Não coloca +, só indica que operação anterior foi '(' ou início da expressão
 				}else if(pilha->op == '*'){
 					operacao = 3; // Não coloca +, só indica que operação anterior foi '*'
@@ -112,27 +121,27 @@ int main(int argc, char*argv[]){
 				if(pilha->prox->op != 0 && pilha->prox->op != ')'){ // Se não tiver um número ou ')' antes do '-', retira-se o '-' e faz o número der negativo
 																	// Ou seja, no caso de "1 * -3" ou "1 / -3" ou "1 + (-3)"
 					popO(&pilha);
-					negFlag = 1;
-				}
+				negFlag = 1;
+			}
 			}else if(operacao == 0 || operacao == 6){ // Se recebeu outro número ou estiver fechando parênteses ')', então multiplica
-				pushO('*', &pilha);
-			}
-			
-			num.v = 0;
-			while((*argv[i]>='0' && *argv[i]<='9')){
-				num.v = 10*num.v + (*argv[i]-48);
-				argv[i]++;
-			}
-			if(*argv[i] == ',' || *argv[i] == '.'){
-				printf("Por favor, entre somente com números inteiros");
-				destruirPilha(pilha)
-				return 0;
-			}
-			if(negFlag){
-				num.v *= -1;
-				negFlag = 0;
-			}
-			pushN(num, &pilha);
+			pushO('*', &pilha);
+		}
+
+		num.v = 0;
+		while((*argv[i]>='0' && *argv[i]<='9')){
+			num.v = 10*num.v + (*argv[i]-48);
+			argv[i]++;
+		}
+		if(*argv[i] == ',' || *argv[i] == '.'){
+			printf("Por favor, entre somente com números inteiros");
+			destruirPilha(pilha)
+			return 0;
+		}
+		if(negFlag){
+			num.v *= -1;
+			negFlag = 0;
+		}
+		pushN(num, &pilha);
 			operacao = 0;	// Sinaliza que foi acrescentado um número na pilha
 		}else{
 			printf("Por favor, entre somente com números inteiros ou operações: + - * / ( )");

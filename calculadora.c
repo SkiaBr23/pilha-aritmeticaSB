@@ -1,3 +1,17 @@
+/*		Máquina de Pilha Aritmética
+*
+*   Grupo 03
+*	Integrantes: 	Arthur Jaber Costato  (13/0039993)
+*					Paulo da Cunha Passos (10/0118577)
+*					Rafael Dias da Costa  (12/0133253)
+*			
+*			
+*   Arquivo: calculadora.c
+*	Descrição:	Arquivo que contem as funcoes gerais da maquina de pilha aritmetica
+*  
+*	
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -170,13 +184,12 @@ void notacaoPosFixada(pilha_t** pilha){
 }
 
 /*
-Função que pega uma pilha pós-fixada e calcula o valor
-funcao destrutiva, pois altera a pilha de entrada
+Função que pega uma pilha pós-fixada e calcula o valor.
+A funcao eh destrutiva, pois altera a pilha de entrada e
 empilha os numeros até encontrar operacao, desempilha
 a qtd necessaria, realiza o calculo e coloca na pilha o
-novo resultado. caso dê tudo certo, é para finalizar com
-o cursor que percorre a entrada == NULL e apenas um numero
-na pilha
+novo resultado. Será finalizada com o cursor que percorre
+a entrada == NULL e apenas um numero na pilha
 */
 
 uint48_t calculaPilha(pilha_t *entrada) {
@@ -220,3 +233,45 @@ uint48_t calculaPilha(pilha_t *entrada) {
 	return pilhaNumeros->num;
 
 }
+
+
+/* Retira todos os espaços de uma string e retorna a quantidade de caracteres final.*/
+int removeEspacos(char* str)
+{
+    int size = 0;
+    char *caracter = str;
+    char *contador = str;
+    while(*contador != 0) {
+        *caracter = *contador++; // pega o próximo caracter.
+        size++;
+        if(*caracter != ' ') {
+            caracter++;
+        } else {
+            size--;
+        }
+    }
+    *caracter = 0; // Nulo no final
+    return size;
+}
+
+/* Contatena o input por linha de comando e retorna a string e inpSize recebe o tamanho da entrada.*/
+char* concatInput(int ac, char **av, int *inpSize)
+{
+    char *buffer = (char*) malloc(sizeof(char) * MAX_LEN);
+    buffer[0] = 0;
+    int offset = 0;
+    *inpSize = 0;
+    while(av++, --ac) {
+       int toWrite = MAX_LEN - offset;
+       // Copia cada argv no buffer mais o offset do argv anterior.
+       int written = snprintf(buffer + offset, toWrite, "%s", *av);
+       if (toWrite < written) {
+           *inpSize += written;
+           break;
+       }
+       *inpSize += written;
+       offset += written;
+    }
+    return buffer;
+}
+

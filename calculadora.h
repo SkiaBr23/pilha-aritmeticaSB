@@ -1,6 +1,25 @@
+/*		Máquina de Pilha Aritmética
+*
+*   Grupo 03
+*	Integrantes: 	Arthur Jaber Costato  (13/0039993)
+*					Paulo da Cunha Passos (10/0118577)
+*					Rafael Dias da Costa  (12/0133253)
+*			
+*			
+*   Arquivo: calculadora.h
+*	Descrição: Arquivo de cabeçalho para funcoes utilizadas
+*   na maquina de pilha aritmetica, suas macros e estruturas de dados.
+*	
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
+
+
+#define MAX_LEN 255 //Maior tamanho possível de input
 
 /* Macro para destuir a pilha */
 #define destruirPilha(var) \
@@ -38,3 +57,5 @@ void imprimePilha(pilha_t* pilha);
 int precedencia(char a, char b);
 void notacaoPosFixada(pilha_t** pilha);
 uint48_t calculaPilha(pilha_t *entrada);
+int removeEspacos(char* str);
+char* concatInput(int ac, char **av, int *inpSize);
