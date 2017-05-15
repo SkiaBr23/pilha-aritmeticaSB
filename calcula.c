@@ -1,5 +1,6 @@
 /*		Máquina de Pilha Aritmética
-*	Integrantes: 	Arthur Jaber Costato (13/0039993)
+*	Integrantes: 	Arthur Jaber Costato  (13/0039993)
+*					Paulo da Cunha Passos (10/0118577)
 *			
 *			
 *			
