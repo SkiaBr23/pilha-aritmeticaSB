@@ -8,7 +8,7 @@
 *					Miguel Montagner Filho (13/0127302) 
 *			
 *			
-*   Arquivo: calculadora.h
+*   Arquivo: 3-02-calculadora.h
 *	Descrição: Arquivo de cabeçalho para funcoes utilizadas
 *   na maquina de pilha aritmetica, suas macros e estruturas de dados.
 *	

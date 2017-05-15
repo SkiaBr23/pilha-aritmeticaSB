@@ -8,7 +8,7 @@
 *					Miguel Montagner Filho (13/0127302) 
 *			
 *			
-*   Arquivo: calculadora.c
+*   Arquivo: 3-02-calculadora.c
 *	Descrição:	Arquivo que contem as funcoes gerais da maquina de pilha aritmetica
 *  
 *	
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "calculadora.h"
+#include "3-02-calculadora.h"
 
 
 /* Função para criação da pilha inicializando com um número */

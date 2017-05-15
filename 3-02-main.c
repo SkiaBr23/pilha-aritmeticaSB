@@ -7,7 +7,7 @@
 *					Lucas Mota Ribeiro 	  (12/0016885)
 *					Miguel Montagner Filho (13/0127302) 
 *			
-*   Arquivo: main.c
+*   Arquivo: 3-02-main.c
 *	Descrição:	Este programa receberá uma expressão aritmética com notação infixa via linha de comando
 *			(com ou sem parênteses) (quatro operações básicas).
 *			Então ele então a converterá para notação pós-fixa
@@ -17,7 +17,7 @@
 
 
 /* Arquivo cabeçalho das funcoes/macros utilizadas e estruturas de dados */
-#include "calculadora.h"
+#include "3-02-calculadora.h"
 
 int main(int argc, char*argv[]){
 

@@ -19,7 +19,7 @@ O usuario pode informar a equacao via parametro do programa ou diretamente na ex
 
 --> Para compilar e executar o código, deve ser chamado o seguinte comando:
 
-gcc -std=c99 -Wall main.c calculadora.c -o calculadora -lm
+gcc -std=c99 -Wall 3-02-main.c 3-02-calculadora.c -o calculadora -lm
 
 --> Exemplo de execucao via argumento (As aspas duplas sao necessarias para evitar erro de obtencao de parametro):
 
